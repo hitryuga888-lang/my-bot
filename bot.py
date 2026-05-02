@@ -1,8 +1,7 @@
 ﻿from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, filters, ContextTypes
-import os
 
-TOKEN = os.environ.get("8716416403:AAHpuWpB9K-Hw24SQEdlrvkGmqrgV-7I1Zo")
+TOKEN = "8716416403:AAHpuWpB9K-Hw24SQEdlrvkGmqrgV-7I1Zo"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -16,7 +15,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-
     if query.data == "hello":
         await query.edit_message_text("Привет! Рад тебя видеть!")
     elif query.data == "help":
@@ -32,6 +30,5 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-
 print("Бот запущен...")
 app.run_polling()
