@@ -1,7 +1,8 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN = "8716416403:AAHpuWpB9K-Hw24SQEdlrvkGmqrgV-7I1Zo"
+import os
+TOKEN = os.environ.get("8716416403:AAHpuWpB9K-Hw24SQEdlrvkGmqrgV-7I1Zo")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Привет! Я твой бот. Напиши что-нибудь!")
