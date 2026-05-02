@@ -16,7 +16,10 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     if query.data == "hello":
-        await query.edit_message_text("Привет! Рад тебя видеть!")
+        await query.message.reply_photo(
+            photo="https://d1.endata.cx/data/games/80455/qqqqqqq202605021643.jpeg",
+            caption="Привет!"
+        )
     elif query.data == "help":
         await query.edit_message_text("Я бот с кнопками. Напиши /start чтобы начать!")
     elif query.data == "about":
