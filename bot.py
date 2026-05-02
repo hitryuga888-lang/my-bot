@@ -18,7 +18,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "hello":
         await query.message.reply_photo(
             photo="https://d1.endata.cx/data/games/80455/qqqqqqq202605021643.jpeg",
-            caption="Привет!"
+            caption="Добро пожаловать в телеграмм бот ресторана Ten June. На данный момент бот находиться на стадии разработки. Информация о запуске появиться на страницах официальных аккаунтов ресторана"
         )
     elif query.data == "help":
         await query.edit_message_text("Я бот с кнопками. Напиши /start чтобы начать!")
