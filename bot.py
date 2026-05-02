@@ -17,7 +17,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     if query.data == "hello":
         await query.message.reply_photo(
-            photo="https://d1.endata.cx/data/games/80455/qqqqqqq202605021643.jpeg",
+            photo="https://optim.tildacdn.com/tild6330-3238-4237-b939-653031623161/-/resize/420x/-/format/webp/_13.jpg.webp",
             caption="Добро пожаловать в телеграмм бот ресторана Ten June. На данный момент бот находиться на стадии разработки. Информация о запуске появиться на страницах официальных аккаунтов ресторана"
         )
     elif query.data == "help":
