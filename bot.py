@@ -1,37 +1,45 @@
-﻿from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, filters, ContextTypes
+import asyncio
+import os
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import CommandStart
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN = "8716416403:AAHpuWpB9K-Hw24SQEdlrvkGmqrgV-7I1Zo"
+load_dotenv()
+TOKEN = os.getenv("BOT_TOKEN")
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        [InlineKeyboardButton("Привет!", callback_data="hello")],
-        [InlineKeyboardButton("Помощь", callback_data="help"),
-         InlineKeyboardButton("О боте", callback_data="about")],
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Выбери действие:", reply_markup=reply_markup)
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
 
-async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    if query.data == "hello":
-        await query.message.reply_photo(
-            photo="https://optim.tildacdn.com/tild6330-3238-4237-b939-653031623161/-/resize/420x/-/format/webp/_13.jpg.webp",
-            caption="Добро пожаловать в телеграмм бот ресторана Ten June. На данный момент бот находиться на стадии разработки. Информация о запуске появиться на страницах официальных аккаунтов ресторана"
-        )
-    elif query.data == "help":
-        await query.edit_message_text("Я бот с кнопками. Напиши /start чтобы начать!")
-    elif query.data == "about":
-        await query.edit_message_text("Я крутой бот, сделан на Python!")
+# Кнопки социальных сетей
+def get_social_keyboard():
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Instagram", url="https://www.instagram.com/ten_june_rest/"),
+            InlineKeyboardButton(text="VK", url="https://vk.com/tenjune_rest"),
+        ],
+        [
+            InlineKeyboardButton(text="Telegram", url="https://t.me/TenJune_Rostov"),
+            InlineKeyboardButton(text="Сделать заказ", url="https://eda.yandex.ru/r/ten_june"),
+        ]
+    ])
+    return keyboard
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    await update.message.reply_text(f"Ты написал: {text}")
+# Команда /start
+@dp.message(CommandStart())
+async def start(message: types.Message):
+    text = "Здравствуйте. Бот на данный момент находится в стадии разработки. О его запуске вы узнаете из социальных сетей"
+    photo_url = "https://optim.tildacdn.com/tild6330-3238-4237-b939-653031623161/-/resize/420x/-/format/webp/_13.jpg.webp"
+    
+    await message.answer_photo(
+        photo=photo_url,
+        caption=text,
+        reply_markup=get_social_keyboard()
+    )
 
-app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CallbackQueryHandler(button))
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-print("Бот запущен...")
-app.run_polling()
+async def main():
+    print("Бот запущен!")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
